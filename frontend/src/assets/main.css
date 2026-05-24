@@ -1,0 +1,26 @@
+@import './base.css';
+
+.theme-link {
+  color: #2468ff;
+  cursor: pointer;
+}
+
+.money {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.el-table {
+  --el-table-header-bg-color: #f5f7fa;
+  --el-table-border-color: #ebeef5;
+}
+
+.el-button {
+  border-radius: 3px;
+}
+
+.el-input__wrapper,
+.el-select__wrapper,
+.el-textarea__inner {
+  border-radius: 3px;
+}

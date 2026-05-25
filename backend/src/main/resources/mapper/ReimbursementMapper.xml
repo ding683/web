@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kjd.backend.mapper.ReimbursementMapper">
+
+    <select id="queryReimbursePage" resultType="com.kjd.backend.vo.ReimbursementVO">
+        SELECT
+            id,
+            reimbursement_no         AS reimbursementNo,
+            CASE document_status
+                WHEN 0 THEN '草稿'
+                WHEN 1 THEN '已完成'
+                WHEN 2 THEN '已作废'
+                ELSE ''
+            END                      AS documentStatus,
+            document_type            AS documentType,
+            reimburser_name          AS reimburserName,
+            reim_department_name     AS reimDepartmentName,
+            reim_company_name        AS reimCompanyName,
+            business_type_name       AS businessTypeName,
+            reimbursement_title      AS reimbursementTitle,
+            reimbursement_reason     AS reimbursementReason,
+            subsidy_total            AS subsidyTotal,
+            create_time              AS createTime,
+            remarks
+        FROM fk_reim_main
+        <where>
+            <if test="dto.reimburseNo != null and dto.reimburseNo != ''">
+                AND reimbursement_no LIKE CONCAT('%', #{dto.reimburseNo}, '%')
+            </if>
+            <if test="dto.reimburseTitle != null and dto.reimburseTitle != ''">
+                AND reimbursement_title LIKE CONCAT('%', #{dto.reimburseTitle}, '%')
+            </if>
+            <if test="dto.reimburseReason != null and dto.reimburseReason != ''">
+                AND reimbursement_reason LIKE CONCAT('%', #{dto.reimburseReason}, '%')
+            </if>
+            <if test="dto.expenseBelongCompName != null and dto.expenseBelongCompName != ''">
+                AND reim_company_name LIKE CONCAT('%', #{dto.expenseBelongCompName}, '%')
+            </if>
+            <if test="dto.reimburseDeptName != null and dto.reimburseDeptName != ''">
+                AND reim_department_name LIKE CONCAT('%', #{dto.reimburseDeptName}, '%')
+            </if>
+            <if test="dto.reimburseUserName != null and dto.reimburseUserName != ''">
+                AND reimburser_name LIKE CONCAT('%', #{dto.reimburseUserName}, '%')
+            </if>
+            <if test="dto.businessTypeName != null and dto.businessTypeName != ''">
+                AND business_type_name LIKE CONCAT('%', #{dto.businessTypeName}, '%')
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+</mapper>
